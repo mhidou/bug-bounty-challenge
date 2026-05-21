@@ -35,17 +35,16 @@ const AppHeader = React.forwardRef<HTMLDivElement, AppHeaderProps>((props, ref) 
   const theme = useTheme();
 
   const [count, setCount] = useState(0);
-  const hours = 1;
-  const minutes = hours * 60;
-  const seconds = minutes * 60;
-  const countdown = seconds - count;
-  const countdownMinutes = `${~~(countdown / 60)}`.padStart(2, "0");
-  const countdownSeconds = (countdown % 60).toFixed(0).padStart(2, "0");
+  const TOTAL_SECONDS = 60 * 60;
+  const countdown = Math.max(0, TOTAL_SECONDS - count);
+  const countdownMinutes = `${Math.floor(countdown / 60)}`.padStart(2, "0");
+  const countdownSeconds = `${countdown % 60}`.padStart(2, "0");
 
   useEffect(() => {
-    setInterval(() => {
+    const id = window.setInterval(() => {
       setCount((c) => c + 1);
     }, 1000);
+    return () => window.clearInterval(id);
   }, []);
 
   return (
