@@ -1,0 +1,21 @@
+{
+  "logout": "Déconnexion",
+  "appTitle": "Application Supplier OS",
+  "AccessDenied": "Accès refusé",
+  "speakToYourAdmin": "Veuillez contacter votre administrateur pour demander l'accès.",
+  "language": {
+    "switch": "Langue",
+    "en": "English",
+    "de": "Deutsch",
+    "fr": "Français",
+    "es": "Español"
+  },
+  "routes": {
+    "/home": "Bug Bounty Challenge"
+  },
+  "home": {
+    "welcome": "Bienvenue !",
+    "intro": "Ceci est une application de démonstration avec quelques anomalies et bugs, que nous espérons que vous saurez trouver. 😃 Voici la liste des problèmes <b>connus</b> :",
+    "sidenote": "Tous les bugs ont des niveaux de complexité différents et tous sont assez courants (problèmes du quotidien pour tout développeur React). Pour résoudre tous les points ouverts, différentes compétences sont requises : recherche Google, expérience, lecture de la documentation et des messages d'erreur, créativité et esprit d'analyse."
+  }
+}

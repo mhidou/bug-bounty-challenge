@@ -1,6 +1,15 @@
 {
   "logout": "Logout",
   "appTitle": "Supplier OS Application",
+  "AccessDenied": "Access denied",
+  "speakToYourAdmin": "Please contact your administrator to request access.",
+  "language": {
+    "switch": "Language",
+    "en": "English",
+    "de": "Deutsch",
+    "fr": "Français",
+    "es": "Español"
+  },
   "routes": {
     "/home": "Bug Bounty Challenge"
   },

@@ -1,1 +1,21 @@
-{}
+{
+  "logout": "Abmelden",
+  "appTitle": "Supplier OS Anwendung",
+  "AccessDenied": "Zugriff verweigert",
+  "speakToYourAdmin": "Bitte wenden Sie sich an Ihren Administrator, um Zugriff zu erhalten.",
+  "language": {
+    "switch": "Sprache",
+    "en": "English",
+    "de": "Deutsch",
+    "fr": "Français",
+    "es": "Español"
+  },
+  "routes": {
+    "/home": "Bug Bounty Challenge"
+  },
+  "home": {
+    "welcome": "Willkommen!",
+    "intro": "Dies ist eine Demo-Anwendung mit einigen Störungen und Fehlern, von denen wir hoffen, dass Sie sie finden. 😃 Hier die Liste der <b>bekannten</b> Probleme:",
+    "sidenote": "Alle Fehler haben unterschiedliche Komplexitätsstufen und sind ziemlich verbreitet (Probleme aus dem Alltag jedes React-Entwicklers). Um alle offenen Punkte zu lösen, sind verschiedene Fähigkeiten erforderlich: Googeln, Erfahrung, Lesen von Dokumentationen und Fehlermeldungen, Kreativität sowie analytisches Denken."
+  }
+}
