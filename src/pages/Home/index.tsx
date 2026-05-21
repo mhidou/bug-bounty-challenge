@@ -50,7 +50,7 @@ const issues: Issue[] = [
     icon: "⭐️",
     title: "Optional: It would be great to be able to switch the language.",
     description:
-      "Please add a language select control in the app bar to swicth the UI language between english and german."
+      "Please add a language select control in the app bar to switch the UI language between english and german."
   }
 ];
 
