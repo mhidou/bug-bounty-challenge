@@ -1,2 +1,8 @@
-# bug-bounty-challenge
-Created with CodeSandbox
+# Quick start
+
+```
+nvm use
+npm i
+npm start
+```
+
