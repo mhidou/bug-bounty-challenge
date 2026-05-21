@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   Divider,
+  IconButton,
   Tooltip,
   Typography
 } from "@mui/material";
@@ -59,7 +60,17 @@ const AvatarMenu = React.forwardRef<HTMLDivElement, AvatarMenuProps>(
 
     return (
       <div ref={ref}>
-        <Avatar onClick={handleClick} {...stringAvatar(user)} />
+        <IconButton
+          id="demo-positioned-button"
+          aria-controls={open ? "demo-positioned-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          onClick={handleClick}
+          size="small"
+          sx={{ p: 0 }}
+        >
+          <Avatar {...stringAvatar(user)} />
+        </IconButton>
         <Menu
           id="demo-positioned-menu"
           aria-labelledby="demo-positioned-button"

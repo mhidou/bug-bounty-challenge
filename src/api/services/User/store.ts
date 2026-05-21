@@ -4,7 +4,7 @@ import {
   ActionResultStatus,
   ActionSuccess
 } from "../../../types/global";
-import { resultOrError, ResultOrErrorResponse } from "../../../utils/global";
+import { resultOrError } from "../../../utils/global";
 
 export interface User {
   firstName?: string;
@@ -12,51 +12,44 @@ export interface User {
   eMail?: string;
 }
 
+const fetchOwnUser = (): Promise<User> =>
+  // Simulated API call; replace with real fetch when wiring an actual backend.
+  new Promise((resolve) =>
+    setTimeout(
+      () =>
+        resolve({
+          firstName: "Aria",
+          lastName: "Test",
+          eMail: "linda.bolt@osapiens.com"
+        }),
+      500
+    )
+  );
+
 export default class UserStore {
   user: User | null = null;
 
-  // init function
   constructor() {
     makeAutoObservable(this);
   }
 
-  // actions
-  async getOwnUser() {
-    const [result, error] = (await resultOrError(
-      new Promise((resolve) =>
-        setTimeout(
-          () =>
-            resolve({
-              firstName: "Aria",
-              lastName: "Test",
-              eMail: "linda.bolt@osapiens.com"
-            }),
-          500
-        )
-      )
-    )) as ResultOrErrorResponse<User>;
+  async getOwnUser(): Promise<ActionSuccess<User> | ActionError> {
+    const [result, error] = await resultOrError(fetchOwnUser());
 
-    if (!!error) {
-      return {
-        status: ActionResultStatus.ERROR,
-        error
-      } as ActionError;
+    if (error) {
+      return { status: ActionResultStatus.ERROR, error };
     }
 
     if (result) {
       runInAction(() => {
         this.user = result;
       });
-
-      return {
-        status: ActionResultStatus.SUCCESS,
-        result: result
-      } as ActionSuccess<User>;
+      return { status: ActionResultStatus.SUCCESS, result };
     }
 
     return {
       status: ActionResultStatus.ERROR,
-      error: "Something went wrong."
-    } as ActionError;
+      error: new Error("Something went wrong.")
+    };
   }
 }

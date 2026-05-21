@@ -1,9 +1,6 @@
 import React, { Suspense } from "react";
 import { SnackbarProvider } from "notistack";
-
 import { HashRouter } from "react-router-dom";
-
-import services from "./api/services";
 
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
@@ -26,18 +23,14 @@ const classes = {
   info: `${PREFIX}-info`
 };
 
-const CombinedStoreProvider: React.FC<{}> = ({ children }) => {
-  return <UserStoreProvider>{children}</UserStoreProvider>;
-};
-
-const AppContainer = () => {
+const AppContainer: React.FC = () => {
   return (
     <>
       <CssBaseline />
       {/* Kickstart a simple scoped CSS baseline to build upon. */}
       {/* Required to override Material-UI's styles via CSS modules. */}
       <Suspense fallback={<div>loading...</div>}>
-        <CombinedStoreProvider>
+        <UserStoreProvider>
           <SnackbarProvider
             maxSnack={3}
             classes={{
@@ -55,7 +48,7 @@ const AppContainer = () => {
               </ThemeProvider>
             </StylesProvider>
           </SnackbarProvider>
-        </CombinedStoreProvider>
+        </UserStoreProvider>
       </Suspense>
     </>
   );

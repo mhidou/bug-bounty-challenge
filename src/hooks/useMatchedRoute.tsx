@@ -17,12 +17,14 @@ interface UseMatchedRouteOptions {
     | "slide-right";
 }
 
+type RouteMatch = ReturnType<typeof matchPath> | null;
+
 const useMatchedRoute = (
   routes: ReadonlyArray<TRoute>,
   fallbackComponent?: React.FC,
   options?: UseMatchedRouteOptions
 ): {
-  route: TRoute;
+  route: TRoute | undefined;
   params: PathParams | null;
   MatchedElement: JSX.Element;
 } => {
@@ -32,10 +34,7 @@ const useMatchedRoute = (
   // `exact`, `sensitive` and `strict` options are set to true
   // to ensure type safety.
   const results = routes
-    .map((route: TRoute): {
-      route: TRoute;
-      match: any | null;
-    } => ({
+    .map((route: TRoute): { route: TRoute; match: RouteMatch } => ({
       route,
       match: matchPath(location.pathname, {
         path: route.path,
@@ -44,7 +43,7 @@ const useMatchedRoute = (
     }))
     .filter(({ match }) => !!match && (matchOnSubPath ? true : match.isExact));
   const [firstResult] = results;
-  const { match, route } = firstResult || {};
+  const { match, route } = firstResult ?? {};
   const Fallback = fallbackComponent;
   const NotFound = notFoundComponent || (() => <>not found</>);
 
@@ -97,9 +96,11 @@ const useMatchedRoute = (
   }, [transition]);
 
   return {
-    route: route,
+    route,
     params:
-      match && validateParams(route.path, match.params) ? match.params : {},
+      route && match && validateParams(route.path, match.params)
+        ? (match.params as PathParams)
+        : null,
     MatchedElement: (
       <Switch>
         {matchOnSubPath &&

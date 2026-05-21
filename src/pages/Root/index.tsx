@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Slide } from "@mui/material";
+import { Box, Slide } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useUserStore } from "../../api/services/User";
 import AppHeader from "../../components/AppHeader";
@@ -7,9 +7,7 @@ import { observer } from "mobx-react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { TRoute } from "../../types/global";
-import { resultOrError } from "../../utils/global";
-import AccessDenied from "../AccessDenied";
-import { routes as useRoutes } from "../routes";
+import { routes as appRoutes } from "../routes";
 
 const hideSplashScreen = () => {
   const splashscreen = document.getElementById("app-splashscreen");
@@ -27,8 +25,7 @@ const Root = () => {
   const userStore = useUserStore();
   const { user } = userStore || {};
   const theme = useTheme();
-  console.log(user);
-  const routes = [...useRoutes] as readonly TRoute[];
+  const routes = appRoutes as readonly TRoute[];
   const [fallbackRoute] = routes;
   const Fallback = fallbackRoute.Component;
   const { route = fallbackRoute, MatchedElement } = useMatchedRoute(
@@ -37,15 +34,13 @@ const Root = () => {
     { matchOnSubPath: true }
   );
 
-  let pageTitle = t(`routes.${route.path}`);
-
-  if (route.path.indexOf("data") > -1 || route.path.indexOf("settings") > -1) {
-    const [, groupName] = route.path.split("/");
-    pageTitle = t(`routes./${groupName}`);
-  }
-
-  const loadingApp = false;
-  const accessDenied = false;
+  // Group-aware page title: routes like /data/foo or /settings/bar fall back
+  // to the parent group's translation key (e.g. routes./data).
+  const isGroupRoute =
+    route.path.indexOf("data") > -1 || route.path.indexOf("settings") > -1;
+  const pageTitle = isGroupRoute
+    ? t(`routes./${route.path.split("/")[1]}`)
+    : t(`routes.${route.path}`);
 
   useEffect(() => {
     hideSplashScreen();
@@ -56,10 +51,6 @@ const Root = () => {
       userStore.getOwnUser();
     }
   }, [user, userStore]);
-
-  if (accessDenied) {
-    return <AccessDenied />;
-  }
 
   return (
     <div
@@ -72,17 +63,6 @@ const Root = () => {
         height: "100vh"
       }}
     >
-      {loadingApp && (
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          width="100%"
-          height="100%"
-        >
-          <CircularProgress color="primary" size={100} />
-        </Box>
-      )}
       <Box
         sx={{
           display: "flex",
@@ -91,7 +71,7 @@ const Root = () => {
           background: "#f5f5f5"
         }}
       >
-        <Slide direction="down" in={!loadingApp} mountOnEnter>
+        <Slide direction="down" in mountOnEnter>
           <AppHeader user={user ?? {}} pageTitle={pageTitle} />
         </Slide>
         <Box
@@ -100,8 +80,7 @@ const Root = () => {
             position: "relative",
             height: `calc(100% - ${theme.tokens.header.height})`,
             width: "100%",
-            marginTop:
-              theme.tokens.header.height /* Necessary because of AppBar */
+            marginTop: theme.tokens.header.height
           }}
         >
           {MatchedElement}

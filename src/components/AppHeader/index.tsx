@@ -49,7 +49,7 @@ const AppHeader = React.forwardRef<HTMLDivElement, AppHeaderProps>((props, ref) 
   }, []);
 
   return (
-    <AppBar ref={ref} position="fixed" sx={{ width: "100vw" }}>
+    <AppBar ref={ref} position="fixed">
       <Toolbar sx={{ background: "#08140C 0% 0% no-repeat padding-box" }}>
         <Box sx={{ width: "100%", flexDirection: "row", display: "flex" }}>
           <Box>
